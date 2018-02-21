@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="destinations">
+        // #
+        <item >63 South</item>
+        // A
+        <item>All Knight Study (FC-A)</item>
+        <item>Alpha Delta Pi</item>
+        <item>Alpha Epsilon Phi</item>
+        <item>Alpha Tau Omega</item>
+        <item>Alpha Xi Delta</item>
+        <item>Ampac</item>
+        <item>Aquarius Courtyard</item>
+        <item>Ara Dr. Research Facility</item>
+        <item>Arboretum</item>
+        <item>Art Gallery</item>
+        // B
+        <item>Barbara Ying Center</item>
+        <item>Baseball Field</item>
+        <item>Bennett Research 2</item>
+        <item>Bio Molecular Meeting Portable</item>
+        <item>Biological Sciences</item>
+        <item>Biological Transgenic Greenhouse</item>
+        <item>Biology Field Research Center</item>
+        <item>Biomolecular Research Annex</item>
+        <item>Brevard Hall</item>
+        <item>Burnett Honors College</item>
+        <item>Burnett School of Biomedical Sciences</item>
+        <item>Business Administration 1</item>
+        <item>Business Administration 2</item>
+        // C
+        <item>Career Services and Experiential Learning</item>
+        <item>Center for Emerging Media</item>
+        <item>CFE Arena</item>
+        <item>Challenge Course</item>
+        <item>Chemistry</item>
+        <item>Chi Omega</item>
+        <item>Citrus Hall</item>
+        <item>Classroom Building 1</item>
+        <item>Classroom Building 2</item>
+        <item>Colbourn Hall</item>
+        <item>College of Arts and Humanities</item>
+        <item>College of Sciences Building</item>
+        <item>Counseling and Psychological Services</item>
+        <item>Creative School 1st Grade</item>
+        <item>Creative School for Children 1</item>
+        <item>Creative School Module 2</item>
+        <item>CREOL</item>
+        // D
+        <item>Delta Delta Delta</item>
+        <item>Disc Golf Course</item>
+        <item>Duke Energy UCF Welcome Center</item>
+        // E
+        <item>Early Childhood Center</item>
+        <item>Eduction</item>
+        <item>Emergency Operation Center</item>
+        <item>Emergency Services Training Building</item>
+        <item>Engine Research Lab</item>
+        <item>Engineering 1</item>
+        <item>Engineering 2</item>
+        <item>Executive Development Center - UCF College of Business</item>
+        // F
+        <item>Facilities and Safety</item>
+        <item>Fairwinds Alumni Center</item>
+        <item>Ferrell Commons</item>
+        <item>FIEA - Florida Interactive Entertainment Academy</item>
+        <item>Flagler Hall</item>
+        <item>Football Practice Field</item>
+        <item>Fraternity and Sorority Life</item>
+        // G
+        <item>Gemini Courtyard</item>
+        // H
+        <item>Harris Corporation Engineering Center</item>
+        <item>Health and Public Affairs 1</item>
+        <item>Health and Public Affairs 2</item>
+        <item>Hercules</item>
+        <item>Housing Administration</item>
+        <item>Howard Phillips Hall</item>
+        // I
+        <item>IN VIVO Reaserch</item>
+        <item>Innovative Center</item>
+        <item>IST Technology Development Center</item>
+        // J
+        <item>Jay Bergman Field - Baseball Stadium</item>
+        <item>John C. Hitt Library</item>
+        <item>John T. Washington Center</item>
+        // K
+        <item>Kappa Alpha Theta</item>
+        <item>Kappa Delta</item>
+        <item>Kappa Kappa Gamma</item>
+        <item>Kappa Sigma</item>
+        <item>Knight's Pantry</item>
+        <item>Knightro's</item>
+        <item>Lake Claire</item>
+        <item>Lake Hall</item>
+        <item>Leisure Pool</item>
+        <item>Libra Community Center</item>
+        // M
+        <item>Mathematical Sciences Building</item>
+        <item>Medical Education Building</item>
+        <item>Memory Mall</item>
+        <item>Millican Hall</item>
+        // N
+        <item>Neptune</item>
+        <item>Nicholson School of Communication</item>
+        <item>Nike</item>
+        // O
+        <item>Office of Student Rights and Responsibilities</item>
+        <item>Orange Hall</item>
+        <item>Osceola Hall</item>
+        // P
+        <item>Parking and Transportation Services</item>
+        <item>Partnership 1</item>
+        <item>Partnership 2</item>
+        <item>Partnership 3</item>
+        <item>Pegasus Courtyard</item>
+        <item>Performing Arts Center</item>
+        <item>Physical Sciences Building</item>
+        <item>Pi Beta Phi</item>
+        <item>Polk Hall</item>
+        <item>Print Shop</item>
+        <item>Psychology Building</item>
+        <item>Public Safety Building (Police Station)</item>
+        // R
+        <item>Rec Services Soccer Field Pavilion</item>
+        <item>Recreation and Wellness Center</item>
+        <item>Recreation Service Pavilion</item>
+        <item>Recreation Services Field Maintenance</item>
+        <item>Recreation Services Field Restroom</item>
+        <item>Recreation Support</item>
+        <item>Recycling Center</item>
+        <item>Reflection Pond</item>
+        <item>Reflections Kiosk</item>
+        <item>Rehearsal Hall</item>
+        <item>Research Pavilion</item>
+        <item>Retirement Planning and Investments / Athletics</item>
+        <item>Robinson Observatory</item>
+        <item>RWC Park</item>
+        // S
+        <item>SDES Information Technology</item>
+        <item>Seminole Hall</item>
+        <item>Siemens Energy Center</item>
+        <item>Sigma Chi</item>
+        <item>Simulation, Training and Technology Center</item>
+        <item>Small Business Development Center</item>
+        <item>Soccer Practice Field</item>
+        <item>Softball Stadium</item>
+        <item>Spectrum Stadium</item>
+        <item>SRC Auditorium</item>
+        <item>Storm Water Research Lab</item>
+        <item>Student Accessibility Services</item>
+        <item>Student Union</item>
+        <item>Sumter Hall</item>
+        // T
+        <item>Teaching Academy</item>
+        <item>Technology Commons 1</item>
+        <item>Technology Commons 2</item>
+        <item>Technology Incubator</item>
+        <item>The Venue</item>
+        <item>Theatre</item>
+        <item>Timothy R. Newman Nature Pavilion</item>
+        <item>Tower 1</item>
+        <item>Tower 2</item>
+        <item>Tower 3</item>
+        <item>Tower 4</item>
+        <item>Track and Soccer Field</item>
+        // U
+        <item>UCF Global</item>
+        // V
+        <item>Visitor and Parking Information Center</item>
+        <item>Visual Arts Building</item>
+        <item>Volusia Hall</item>
+        // W
+        <item>Wayne Densch Center</item>
+        <item>Wayne Densch Sports Center</item>
+        // Z
+        <item>"Zeta Tau Alpha</item>
+    </string-array>
+</resources>

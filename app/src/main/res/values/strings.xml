@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Smart_Parking</string>
+    <string name="title_activity_destination_selection">DestinationSelectionActivity</string>
+    <string name="large_text">
+        " Large Text"
+    </string>
+    <string name="pwd">I C¦÷èŠÒËÌÆ·ÊP7L</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_navigation">Map</string>
+
+    <!--Destination Selection text-->
+    <string name="destination_selection_text">Select where on campus you\'d like to go</string>
+    <string name="divider">----------------------------------------------------------------------------------------</string>
+
+    <!--Loading Screen text-->
+    <string name="progress_wheel_text">Please wait while we find your optimal route&#8230;</string>
+
+    <!--Arrival Screen text-->
+    <string name="Arrival_text">You Have Arrived!</string>
+    <string name="arrival_button_text">New Route</string>
+</resources>

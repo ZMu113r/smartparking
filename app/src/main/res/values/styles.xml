@@ -1,0 +1,38 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ProgressDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:alertDialogStyle">@style/ProgressDialogStyle</item>
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorAccent</item>
+    </style>
+
+    <style name="ProgressDialogStyle">
+        <item name="android:bottomBright">@color/colorPrimaryDark</item>
+        <item name="android:bottomDark">@color/colorPrimaryDark</item>
+        <item name="android:bottomMedium">@color/colorPrimaryDark</item>
+        <item name="android:centerBright">@color/colorPrimaryDark</item>
+        <item name="android:centerDark">@color/colorPrimaryDark</item>
+        <item name="android:centerMedium">@color/colorPrimaryDark</item>
+        <item name="android:fullBright">@color/colorPrimaryDark</item>
+        <item name="android:fullDark">@color/colorPrimaryDark</item>
+        <item name="android:topBright">@color/colorPrimaryDark</item>
+        <item name="android:topDark">@color/colorPrimaryDark</item>
+    </style>
+</resources>
