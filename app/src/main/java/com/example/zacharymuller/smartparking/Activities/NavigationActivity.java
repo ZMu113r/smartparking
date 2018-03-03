@@ -2,14 +2,13 @@ package com.example.zacharymuller.smartparking.Activities;
 
 import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.LinearInterpolator;
 
-import com.example.zacharymuller.smartparking.Entities.Destination;
-import com.example.zacharymuller.smartparking.Entities.Garage;
+import com.example.zacharymuller.smartparking.Entities.GarageEntity;
 import com.example.zacharymuller.smartparking.Entities.User;
 import com.example.zacharymuller.smartparking.R;
 import com.example.zacharymuller.smartparking.Remote.Common;
@@ -19,7 +18,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
@@ -46,11 +44,11 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
     private GoogleMap mMap;
 
-    private ArrayList<Garage> closestGarages;
+    private ArrayList<GarageEntity> closestGarages;
 
     private String chosenGarage;
 
-    private Garage destinationGarage;
+    private GarageEntity destinationGarage;
 
     private User currentUser;
 
@@ -92,11 +90,12 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         String chosenGarageJSON = getIntent().getStringExtra("chosen garage");
 
         currentUser = gs.fromJson(currentUserJSON, User.class);
-        closestGarages = gs.fromJson(closestGaragesJSON, new TypeToken<ArrayList<Garage>>(){}.getType());
+        closestGarages = gs.fromJson(closestGaragesJSON, new TypeToken<ArrayList<GarageEntity>>() {
+        }.getType());
         chosenGarage = gs.fromJson(chosenGarageJSON, String.class);
 
         // Get  destination garage from list of closest garages
-        for (Garage g : closestGarages) {
+        for (GarageEntity g : closestGarages) {
             if(g.getName().compareTo(chosenGarage) == 0)
                 destinationGarage = g;
         }

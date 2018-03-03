@@ -1,9 +1,7 @@
 package com.example.zacharymuller.smartparking.Entities;
 
-import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 
@@ -11,7 +9,7 @@ import java.util.ArrayList;
  * Created by Zach on 1/4/2018.
  */
 
-public class Garage implements Parcelable {
+public class GarageEntity implements Parcelable {
 
     private String name;
     private String status;
@@ -23,7 +21,7 @@ public class Garage implements Parcelable {
     private ArrayList<Floor> floors;
 
 
-    public Garage(String name, String status, int capacity, double latitude, double longitude, ArrayList<Floor> floors) {
+    public GarageEntity(String name, String status, int capacity, double latitude, double longitude, ArrayList<Floor> floors) {
         this.name = name;
         this.status = status;
         this.capacity = capacity;
@@ -108,18 +106,18 @@ public class Garage implements Parcelable {
         desc.writeTypedList(floors);
     }
 
-    public static final Parcelable.Creator<Garage> CREATOR = new Parcelable.Creator<Garage>() {
-        public Garage createFromParcel(Parcel in) {
-            return new Garage(in);
+    public static final Parcelable.Creator<GarageEntity> CREATOR = new Parcelable.Creator<GarageEntity>() {
+        public GarageEntity createFromParcel(Parcel in) {
+            return new GarageEntity(in);
         }
 
-        public Garage[] newArray(int size) {
-            return new Garage[size];
+        public GarageEntity[] newArray(int size) {
+            return new GarageEntity[size];
         }
     };
 
     // Un-flatten parcel
-    public Garage(Parcel in) {
+    public GarageEntity(Parcel in) {
         name = in.readString();
         status = in.readString();
         capacity = in.readInt();

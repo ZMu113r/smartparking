@@ -1,21 +1,16 @@
 package com.example.zacharymuller.smartparking.Activities;
 
 // Use the JSON streaming API
-import javax.json.Json;
-import javax.json.stream.JsonParser;
 
-import android.content.Intent;
 import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.example.zacharymuller.smartparking.Adapters.CardAdapter;
 import com.example.zacharymuller.smartparking.Entities.Destination;
-import com.example.zacharymuller.smartparking.Entities.Garage;
+import com.example.zacharymuller.smartparking.Entities.GarageEntity;
 import com.example.zacharymuller.smartparking.Entities.User;
 import com.example.zacharymuller.smartparking.Models.CardModel;
 import com.example.zacharymuller.smartparking.R;
@@ -25,7 +20,6 @@ import com.google.gson.reflect.TypeToken;
 import com.huxq17.swipecardsview.SwipeCardsView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RouteSelectionActivity extends AppCompatActivity {
     // UI members
@@ -37,8 +31,8 @@ public class RouteSelectionActivity extends AppCompatActivity {
     // Singleton objects
     private Destination dest;
     private User currentUser;
-    private ArrayList<Garage> garages;
-    private ArrayList<Garage> closestGarages;
+    private ArrayList<GarageEntity> garages;
+    private ArrayList<GarageEntity> closestGarages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +48,11 @@ public class RouteSelectionActivity extends AppCompatActivity {
 
         currentUser = gs.fromJson(currentUserJSON, User.class);
         dest = gs.fromJson(destinationJSON, Destination.class);
-        garages = gs.fromJson(garagesJSON, new TypeToken<ArrayList<Garage>>(){}.getType());
-        closestGarages = gs.fromJson(closestGaragesJSON, new TypeToken<ArrayList<Garage>>(){}.getType());;
+        garages = gs.fromJson(garagesJSON, new TypeToken<ArrayList<GarageEntity>>() {
+        }.getType());
+        closestGarages = gs.fromJson(closestGaragesJSON, new TypeToken<ArrayList<GarageEntity>>() {
+        }.getType());
+        ;
 
         // Grab object references from layout
         // Recycler view

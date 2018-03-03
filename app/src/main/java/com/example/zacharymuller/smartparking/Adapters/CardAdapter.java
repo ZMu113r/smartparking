@@ -2,23 +2,18 @@ package com.example.zacharymuller.smartparking.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.zacharymuller.smartparking.Activities.NavigationActivity;
-import com.example.zacharymuller.smartparking.Activities.RouteSelectionActivity;
-import com.example.zacharymuller.smartparking.Entities.Garage;
+import com.example.zacharymuller.smartparking.Entities.GarageEntity;
 import com.example.zacharymuller.smartparking.Entities.User;
 import com.example.zacharymuller.smartparking.Models.CardModel;
 import com.example.zacharymuller.smartparking.R;
 import com.google.gson.Gson;
-import com.huxq17.swipecardsview.BaseCardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +25,14 @@ import java.util.List;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.SwipeableCardViewHolder> {
     private User currentUser;
 
-    private ArrayList<Garage> closestGarages;
+    private ArrayList<GarageEntity> closestGarages;
 
     private List<CardModel> modelList;
 
     private Context context;
 
 
-    public CardAdapter(User currentUser, ArrayList<Garage> closestGarages, List<CardModel> modelList, Context context) {
+    public CardAdapter(User currentUser, ArrayList<GarageEntity> closestGarages, List<CardModel> modelList, Context context) {
         this.currentUser = currentUser;
         this.closestGarages = closestGarages;
         this.modelList = modelList;
