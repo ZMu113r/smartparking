@@ -3,13 +3,14 @@ package com.example.zacharymuller.smartparking.Entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Zach on 1/4/2018.
  */
 
-public class Garage implements Parcelable {
+public class Garage implements Parcelable, Serializable {
     private String name;
     //private String status;
     private int size;
@@ -141,33 +142,38 @@ public class Garage implements Parcelable {
         return this.getOccupied() == this.size;
     }
 
-    // Parcelable implementation methods
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel desc, int flags) {
-        desc.writeString(name);
-        desc.writeInt(size);
-        desc.writeArray(spots);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeArray(this.spots);
+        dest.writeString(this.name);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+    }
+
+    private Garage(Parcel in) {
+        this.spots = (com.example.zacharymuller.smartparking.APIClient.Spot[])in.readArray(this.getClass().getClassLoader());
+        this.name = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
     }
 
     public static final Parcelable.Creator<Garage> CREATOR = new Parcelable.Creator<Garage>() {
-        public Garage createFromParcel(Parcel in) {
-            return new Garage(in);
+
+        @Override
+        public Garage createFromParcel(Parcel source) {
+            return new Garage(source);
         }
 
+        @Override
         public Garage[] newArray(int size) {
             return new Garage[size];
         }
     };
 
-    // Un-flatten parcel
-    public Garage(Parcel in) {
-        name = in.readString();
-        size = in.readInt();
-        spots = (com.example.zacharymuller.smartparking.APIClient.Spot[]) in.readArray(this.getClass().getClassLoader());
-    }
+    // Parcelable implementation methods
 }

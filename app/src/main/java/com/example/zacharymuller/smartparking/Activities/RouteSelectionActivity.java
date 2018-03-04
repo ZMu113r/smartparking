@@ -10,13 +10,12 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.zacharymuller.smartparking.Adapters.CardAdapter;
 import com.example.zacharymuller.smartparking.Entities.Destination;
-import com.example.zacharymuller.smartparking.Entities.GarageEntity;
+import com.example.zacharymuller.smartparking.Entities.Garages;
 import com.example.zacharymuller.smartparking.Entities.User;
 import com.example.zacharymuller.smartparking.Models.CardModel;
 import com.example.zacharymuller.smartparking.R;
 import com.example.zacharymuller.smartparking.Remote.GeoTask;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.huxq17.swipecardsview.SwipeCardsView;
 
 import java.util.ArrayList;
@@ -31,8 +30,6 @@ public class RouteSelectionActivity extends AppCompatActivity {
     // Singleton objects
     private Destination dest;
     private User currentUser;
-    private ArrayList<GarageEntity> garages;
-    private ArrayList<GarageEntity> closestGarages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +45,6 @@ public class RouteSelectionActivity extends AppCompatActivity {
 
         currentUser = gs.fromJson(currentUserJSON, User.class);
         dest = gs.fromJson(destinationJSON, Destination.class);
-        garages = gs.fromJson(garagesJSON, new TypeToken<ArrayList<GarageEntity>>() {
-        }.getType());
-        closestGarages = gs.fromJson(closestGaragesJSON, new TypeToken<ArrayList<GarageEntity>>() {
-        }.getType());
-        ;
 
         // Grab object references from layout
         // Recycler view
@@ -64,30 +56,31 @@ public class RouteSelectionActivity extends AppCompatActivity {
 
 
         // Get live data to display to user
-        if(closestGarages.size() >= 1) {
+        if(Garages.getClosestGarages().size() >= 1) {
             cardModelList.add(new CardModel(
-                    closestGarages.get(0).getName(),
-                    closestGarages.get(0).getCapacity(),
-                    getDestinationTime(closestGarages.get(0).getName()),
-                    getWalkingTime(closestGarages.get(0).getName())));
+                    Garages.getClosestGarages().get(0).getName(),
+                    Garages.getClosestGarages().get(0).getSize(),
+                    "",
+                    ""));
         }
-        if(closestGarages.size() >= 2) {
+        if(Garages.getClosestGarages().size() >= 2) {
             cardModelList.add(new CardModel(
-                    closestGarages.get(1).getName(),
-                    closestGarages.get(1).getCapacity(),
-                    getDestinationTime(closestGarages.get(1).getName()),
-                    getWalkingTime(closestGarages.get(1).getName())));
+                    Garages.getClosestGarages().get(1).getName(),
+                    Garages.getClosestGarages().get(1).getSize(),
+                    "",
+                    ""));
         }
-        if(closestGarages.size() >= 3) {
+        if(Garages.getClosestGarages().size() >= 3) {
             cardModelList.add(new CardModel(
-                    closestGarages.get(2).getName(),
-                    closestGarages.get(2).getCapacity(),
-                    getDestinationTime(closestGarages.get(2).getName()),
-                    getWalkingTime(closestGarages.get(2).getName())));
+                    Garages.getClosestGarages().get(2).getName(),
+                    Garages.getClosestGarages().get(2).getSize(),
+                    "",
+                    ""));
         }
 
         // Create adapter
-        cardAdapter = new CardAdapter(currentUser, closestGarages, cardModelList, this);
+        cardAdapter = new CardAdapter(currentUser, Garages.getClosestGarages(), cardModelList, this);
+        cardAdapter = new CardAdapter(currentUser, Garages.getClosestGarages(), cardModelList, this);
         recyclerView.setAdapter(cardAdapter);
     }
 
@@ -100,7 +93,7 @@ public class RouteSelectionActivity extends AppCompatActivity {
                 location.getLatitude() + "," + location.getLongitude() +
                 "&destinations=" + "UCF garage " + garageName + "&mode=driving&language=fr-FR&avoid=tolls&key=" +
                 getString(R.string.google_maps_key);
-        new GeoTask(RouteSelectionActivity.this).execute(url);
+        //new GeoTask(RouteSelectionActivity.this).execute(url);
 
         return "";
     }
@@ -109,7 +102,7 @@ public class RouteSelectionActivity extends AppCompatActivity {
         String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
                 garageName + "&destinations=" + "UCF garage " + dest.getName() + "&mode=walking&language=fr-FR&avoid=tolls&key=" +
                 getString(R.string.google_maps_key);
-        new GeoTask(RouteSelectionActivity.this).execute(url);
+        //new GeoTask(RouteSelectionActivity.this).execute(url);
 
         return "";
     }

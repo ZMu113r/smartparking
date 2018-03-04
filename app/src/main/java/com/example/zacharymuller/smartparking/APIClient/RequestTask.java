@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.example.zacharymuller.smartparking.Activities.HomeActivity;
 import com.example.zacharymuller.smartparking.Entities.Garage;
+import com.example.zacharymuller.smartparking.Entities.Garages;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,8 +47,9 @@ public class RequestTask extends AsyncTask<String, Void, ArrayList<Garage>> {
         // Figure out toast stuff
 
         for (Garage g : garageList) {
-            Toast.makeText(context, "Garage" + g.getName() + "@(" + g.getLatitude() + "," + g.getLongitude() + ") spots: " + g.getSize(), Toast.LENGTH_SHORT).show();
-            this.activity.setGarage(g);
+            Garages.setGarage(g.getName(), g);
         }
+
+        activity.enableEnterButton();
     }
 }

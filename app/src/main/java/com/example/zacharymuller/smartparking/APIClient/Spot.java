@@ -3,7 +3,7 @@ package com.example.zacharymuller.smartparking.APIClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Spot {
+public class Spot implements java.io.Serializable {
     private boolean occupied;
     private int id;
 

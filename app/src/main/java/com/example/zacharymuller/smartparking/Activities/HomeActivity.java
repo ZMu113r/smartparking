@@ -13,8 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.zacharymuller.smartparking.APIClient.Garage;
 import com.example.zacharymuller.smartparking.APIClient.RequestTask;
+import com.example.zacharymuller.smartparking.Entities.Garages;
 import com.example.zacharymuller.smartparking.Entities.User;
 import com.example.zacharymuller.smartparking.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,33 +27,40 @@ public class HomeActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient mFusedLocationClient;
 
-    private User currentUser;
-    private Garage[] g;
-    public int cnt = 0;
+    private Button destinationSelectionButton;
 
-    public void setGarage(Garage g) {
-        this.g[cnt++] = g;
+    private User currentUser;
+
+    private int cnt = 0;
+
+    public void enableEnterButton() {
+        this.destinationSelectionButton.setEnabled(true);
     }
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String[] keys = {"A", "B", "C", "D", "H", "I", "Libra", "Test"};
+        Garages.initGarages(keys);
+
         setContentView(R.layout.activity_home);
 
-        g = new Garage[8];
-
         new RequestTask(this.getApplicationContext(), this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "A", "B", "C", "D", "H", "I", "Libra", "Test");
+
+        //final PollTask pollTask = new PollTask(g[7], HomeActivity.this);
+        //pollTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         // Create an instance of the fused location provider client
         // in order to get users current location
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // Home Screen -> Destination Selection
-        Button destinationSelectionButton = findViewById(R.id.destinationSelectionButton);
+        destinationSelectionButton = findViewById(R.id.destinationSelectionButton);
+
+        destinationSelectionButton.setEnabled(false);
+
         destinationSelectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("HOMEACTIVITY", "Enter pressed");
                 // Get last known location of currentUsers device
                 if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -103,13 +110,15 @@ public class HomeActivity extends AppCompatActivity {
                                     Intent intent = new Intent(HomeActivity.this, DestinationSelectionActivity.class);
 
                                     String currentUserJSON = gs.toJson(currentUser);
+                                    Log.i("HOMEACTIVITY", currentUserJSON);
 
-                                    intent.putExtra("current user", currentUserJSON);
+                                    intent.putExtra("curruser", currentUserJSON);
 
                                     startActivity(intent);
                                 }
                             }
                         });
+
             }
         });
     }
