@@ -45,6 +45,14 @@ public class Garage implements Parcelable {
         return longitude;
     }
 
+    public com.example.zacharymuller.smartparking.APIClient.Spot getSpot(int i) {
+        return this.spots[i];
+    }
+
+    public void setSpot(int i, com.example.zacharymuller.smartparking.APIClient.Spot s) {
+        this.spots[i] = s;
+    }
+
     //
     public double getDestinationDistance() {
         return destinationDistance;
@@ -52,6 +60,18 @@ public class Garage implements Parcelable {
 
     public double getUserDistance() {
         return userDistance;
+    }
+
+    public com.example.zacharymuller.smartparking.APIClient.Spot[] diff(Garage other) {
+        if (!this.name.equals(other.getName())) throw new IllegalArgumentException();
+
+        ArrayList<com.example.zacharymuller.smartparking.APIClient.Spot> differences = new ArrayList<com.example.zacharymuller.smartparking.APIClient.Spot>();
+        for (int i = 0; i < this.size; i++) {
+            if (this.spots[i].isOccupied() != other.getSpot(i).isOccupied())
+                differences.add(this.spots[i]);
+        }
+
+        return differences.toArray(new com.example.zacharymuller.smartparking.APIClient.Spot[differences.size()]);
     }
 
     //
