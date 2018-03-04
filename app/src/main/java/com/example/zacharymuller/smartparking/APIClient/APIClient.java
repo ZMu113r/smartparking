@@ -1,7 +1,5 @@
 package com.example.zacharymuller.smartparking.APIClient;
 
-import android.util.Log;
-
 import com.example.zacharymuller.smartparking.Entities.Garage;
 
 import org.json.JSONArray;
@@ -52,16 +50,13 @@ public class APIClient {
         double lat = 0;
         double lng = 0;
 
-        if (obj == null)
-            Log.i("APICLIENT", "request failed for location data");
-        else {
-            try {
-                lat = obj.getDouble("latitude");
-                lng = obj.getDouble("longitude");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        try {
+            lat = obj.getDouble("latitude");
+            lng = obj.getDouble("longitude");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
         return new Garage(spots, garage, lat, lng);//new Garage(objs, garage.substring(0, 1).toUpperCase() + "" + garage.substring(1).toLowerCase());
     }
 
@@ -81,7 +76,6 @@ public class APIClient {
 
     public static String req(String route, String params) throws IOException {
         URL url = new URL("http://" + REMOTEADDR + "/" + route + "/" + params);
-        Log.i("APICLIENT", url.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
