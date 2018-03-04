@@ -1,0 +1,865 @@
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Crypto/CryptoException.java
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Crypto/CryptoException.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Crypto/CryptoException.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
+@@ -1,15 +0,0 @@
+-package com.example.zacharymuller.smartparking.Crypto;
+-
+-/**
+- * Created by Zach on 1/29/2018.
+- */
+-
+-public class CryptoException extends Exception{
+-    public CryptoException() {
+-    }
+-
+-    public CryptoException(String message, Throwable throwable) {
+-        super(message, throwable);
+-    }
+-}
+-
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Activities/RouteSelectionActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Activities/RouteSelectionActivity.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Activities/RouteSelectionActivity.java	(revision )
+@@ -1,21 +1,16 @@
+ package com.example.zacharymuller.smartparking.Activities;
+ 
+ // Use the JSON streaming API
+-import javax.json.Json;
+-import javax.json.stream.JsonParser;
+ 
+-import android.content.Intent;
+ import android.location.Location;
+-import android.support.v7.app.AppCompatActivity;
+ import android.os.Bundle;
+-import android.support.v7.widget.CardView;
++import android.support.v7.app.AppCompatActivity;
+ import android.support.v7.widget.LinearLayoutManager;
+ import android.support.v7.widget.RecyclerView;
+-import android.view.View;
+ 
+ import com.example.zacharymuller.smartparking.Adapters.CardAdapter;
+ import com.example.zacharymuller.smartparking.Entities.Destination;
+-import com.example.zacharymuller.smartparking.Entities.Garage;
++import com.example.zacharymuller.smartparking.Entities.GarageEntity;
+ import com.example.zacharymuller.smartparking.Entities.User;
+ import com.example.zacharymuller.smartparking.Models.CardModel;
+ import com.example.zacharymuller.smartparking.R;
+@@ -25,7 +20,6 @@
+ import com.huxq17.swipecardsview.SwipeCardsView;
+ 
+ import java.util.ArrayList;
+-import java.util.List;
+ 
+ public class RouteSelectionActivity extends AppCompatActivity {
+     // UI members
+@@ -37,8 +31,8 @@
+     // Singleton objects
+     private Destination dest;
+     private User currentUser;
+-    private ArrayList<Garage> garages;
+-    private ArrayList<Garage> closestGarages;
++    private ArrayList<GarageEntity> garages;
++    private ArrayList<GarageEntity> closestGarages;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+@@ -54,8 +48,11 @@
+ 
+         currentUser = gs.fromJson(currentUserJSON, User.class);
+         dest = gs.fromJson(destinationJSON, Destination.class);
+-        garages = gs.fromJson(garagesJSON, new TypeToken<ArrayList<Garage>>(){}.getType());
+-        closestGarages = gs.fromJson(closestGaragesJSON, new TypeToken<ArrayList<Garage>>(){}.getType());;
++        garages = gs.fromJson(garagesJSON, new TypeToken<ArrayList<GarageEntity>>() {
++        }.getType());
++        closestGarages = gs.fromJson(closestGaragesJSON, new TypeToken<ArrayList<GarageEntity>>() {
++        }.getType());
++        ;
+ 
+         // Grab object references from layout
+         // Recycler view
+Index: app/src/main/java/com/example/zacharymuller/smartparking/APIClient/Parser.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/APIClient/Parser.java	(revision )
++++ app/src/main/java/com/example/zacharymuller/smartparking/APIClient/Parser.java	(revision )
+@@ -0,0 +1,25 @@
++package com.example.zacharymuller.smartparking.APIClient;
++
++import java.util.ArrayList;
++
++public class Parser {
++    public static JSObject parse(String s) {
++        JSObject finalObj;
++        String jsString = s.substring(2);
++        String[] attribs = jsString.split(",");
++        ArrayList<String> keys = new ArrayList<String>();
++        ArrayList<String> vals = new ArrayList<String>();
++
++        for (String attrib : attribs) {
++            String[] pieces = attrib.split(":");
++            keys.add(pieces[0].replaceAll("\"", ""));
++            vals.add(pieces[1].replaceAll("\"", ""));
++        }
++
++        String[] keyArray = keys.toArray(new String[keys.size()]);
++        String[] valArray = vals.toArray(new String[vals.size()]);
++
++        finalObj = new JSObject(keyArray, valArray);
++        return finalObj;
++    }
++}
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Entities/Garage.java
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Entities/Garage.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Entities/GarageEntity.java	(revision )
+@@ -1,9 +1,7 @@
+ package com.example.zacharymuller.smartparking.Entities;
+ 
+-import android.location.Location;
+ import android.os.Parcel;
+ import android.os.Parcelable;
+-import android.support.annotation.NonNull;
+ 
+ import java.util.ArrayList;
+ 
+@@ -11,7 +9,7 @@
+  * Created by Zach on 1/4/2018.
+  */
+ 
+-public class Garage implements Parcelable {
++public class GarageEntity implements Parcelable {
+ 
+     private String name;
+     private String status;
+@@ -23,7 +21,7 @@
+     private ArrayList<Floor> floors;
+ 
+ 
+-    public Garage(String name, String status, int capacity, double latitude, double longitude, ArrayList<Floor> floors) {
++    public GarageEntity(String name, String status, int capacity, double latitude, double longitude, ArrayList<Floor> floors) {
+         this.name = name;
+         this.status = status;
+         this.capacity = capacity;
+@@ -108,18 +106,18 @@
+         desc.writeTypedList(floors);
+     }
+ 
+-    public static final Parcelable.Creator<Garage> CREATOR = new Parcelable.Creator<Garage>() {
+-        public Garage createFromParcel(Parcel in) {
+-            return new Garage(in);
++    public static final Parcelable.Creator<GarageEntity> CREATOR = new Parcelable.Creator<GarageEntity>() {
++        public GarageEntity createFromParcel(Parcel in) {
++            return new GarageEntity(in);
+         }
+ 
+-        public Garage[] newArray(int size) {
+-            return new Garage[size];
++        public GarageEntity[] newArray(int size) {
++            return new GarageEntity[size];
+         }
+     };
+ 
+     // Un-flatten parcel
+-    public Garage(Parcel in) {
++    public GarageEntity(Parcel in) {
+         name = in.readString();
+         status = in.readString();
+         capacity = in.readInt();
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Activities/NavigationActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Activities/NavigationActivity.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Activities/NavigationActivity.java	(revision )
+@@ -2,14 +2,13 @@
+ 
+ import android.animation.ValueAnimator;
+ import android.graphics.Color;
++import android.os.Bundle;
+ import android.os.Handler;
+ import android.support.v4.app.FragmentActivity;
+-import android.os.Bundle;
+ import android.util.Log;
+ import android.view.animation.LinearInterpolator;
+ 
+-import com.example.zacharymuller.smartparking.Entities.Destination;
+-import com.example.zacharymuller.smartparking.Entities.Garage;
++import com.example.zacharymuller.smartparking.Entities.GarageEntity;
+ import com.example.zacharymuller.smartparking.Entities.User;
+ import com.example.zacharymuller.smartparking.R;
+ import com.example.zacharymuller.smartparking.Remote.Common;
+@@ -19,7 +18,6 @@
+ import com.google.android.gms.maps.GoogleMap;
+ import com.google.android.gms.maps.OnMapReadyCallback;
+ import com.google.android.gms.maps.SupportMapFragment;
+-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+ import com.google.android.gms.maps.model.CameraPosition;
+ import com.google.android.gms.maps.model.JointType;
+ import com.google.android.gms.maps.model.LatLng;
+@@ -46,11 +44,11 @@
+ 
+     private GoogleMap mMap;
+ 
+-    private ArrayList<Garage> closestGarages;
++    private ArrayList<GarageEntity> closestGarages;
+ 
+     private String chosenGarage;
+ 
+-    private Garage destinationGarage;
++    private GarageEntity destinationGarage;
+ 
+     private User currentUser;
+ 
+@@ -92,11 +90,12 @@
+         String chosenGarageJSON = getIntent().getStringExtra("chosen garage");
+ 
+         currentUser = gs.fromJson(currentUserJSON, User.class);
+-        closestGarages = gs.fromJson(closestGaragesJSON, new TypeToken<ArrayList<Garage>>(){}.getType());
++        closestGarages = gs.fromJson(closestGaragesJSON, new TypeToken<ArrayList<GarageEntity>>() {
++        }.getType());
+         chosenGarage = gs.fromJson(chosenGarageJSON, String.class);
+ 
+         // Get  destination garage from list of closest garages
+-        for (Garage g : closestGarages) {
++        for (GarageEntity g : closestGarages) {
+             if(g.getName().compareTo(chosenGarage) == 0)
+                 destinationGarage = g;
+         }
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Activities/HomeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Activities/HomeActivity.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Activities/HomeActivity.java	(revision )
+@@ -4,14 +4,17 @@
+ import android.content.Intent;
+ import android.content.pm.PackageManager;
+ import android.location.Location;
++import android.os.AsyncTask;
++import android.os.Bundle;
+ import android.support.v4.app.ActivityCompat;
+ import android.support.v4.content.ContextCompat;
+ import android.support.v7.app.AppCompatActivity;
+-import android.os.Bundle;
+ import android.util.Log;
+ import android.view.View;
+ import android.widget.Button;
+ 
++import com.example.zacharymuller.smartparking.APIClient.Garage;
++import com.example.zacharymuller.smartparking.APIClient.RequestTask;
+ import com.example.zacharymuller.smartparking.Entities.User;
+ import com.example.zacharymuller.smartparking.R;
+ import com.google.android.gms.location.FusedLocationProviderClient;
+@@ -25,12 +28,22 @@
+     private FusedLocationProviderClient mFusedLocationClient;
+ 
+     private User currentUser;
++    private Garage[] g;
++    public int cnt = 0;
++
++    public void setGarage(Garage g) {
++        this.g[cnt++] = g;
++    }
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_home);
+ 
++        g = new Garage[8];
++
++        new RequestTask(this.getApplicationContext(), this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "A", "B", "C", "D", "H", "I", "Libra", "Test");
++
+         // Create an instance of the fused location provider client
+         // in order to get users current location
+         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+Index: app/src/main/java/com/example/zacharymuller/smartparking/APIClient/Garage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/APIClient/Garage.java	(revision )
++++ app/src/main/java/com/example/zacharymuller/smartparking/APIClient/Garage.java	(revision )
+@@ -0,0 +1,55 @@
++package com.example.zacharymuller.smartparking.APIClient;
++
++import java.util.ArrayList;
++
++public class Garage {
++    private int size;
++    private Spot[] spots;
++    String garage;
++
++    public Garage(Spot[] spots, String name) {
++        this.garage = name;
++        this.size = spots.length;
++        this.spots = spots;
++    }
++
++    public Spot[] getOccupied() {
++        ArrayList<Spot> occupied = new ArrayList<Spot>();
++        for (int i = 0; i < this.size; i++) {
++            if (spots[i].isOccupied()) {
++                occupied.add(spots[i]);
++            }
++        }
++
++        return occupied.toArray(new Spot[occupied.size()]);
++    }
++
++    public String getName() {
++        return this.garage;
++    }
++
++    public int getNumOccupied() {
++        return this.getOccupied().length;
++    }
++
++    public Spot get(int i) {
++        return this.spots[i];
++    }
++
++    public boolean isFull() {
++        return this.getNumOccupied() == this.size;
++    }
++
++    public String toString() {
++        String s = "" + this.garage + "\n";
++        for (int i = 0; i < spots.length; i++) {
++            s += spots[i] + "\n";
++        }
++
++        return s;
++    }
++
++    public int getSize() {
++        return this.size;
++    }
++}
+Index: app/src/main/java/com/example/zacharymuller/smartparking/APIClient/JSObject.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/APIClient/JSObject.java	(revision )
++++ app/src/main/java/com/example/zacharymuller/smartparking/APIClient/JSObject.java	(revision )
+@@ -0,0 +1,30 @@
++package com.example.zacharymuller.smartparking.APIClient;
++
++import java.util.HashMap;
++
++public class JSObject {
++    private HashMap<String, String> attribs;
++
++    public JSObject(String[] keys, String[] vals) {
++        attribs = new HashMap<String, String>();
++
++        for (int i = 0; i < keys.length; i++) {
++            attribs.put(keys[i], vals[i]);
++        }
++    }
++
++    public String toString() {
++        String s = "{\n";
++        for (String key : attribs.keySet()) {
++            if (key.startsWith("_")) continue;
++            s += key + ": " + attribs.get(key) + ",\n";
++        }
++        s += "}";
++
++        return s;
++    }
++
++    public String get(String query) {
++        return attribs.get(query);
++    }
++}
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Activities/DestinationSelectionActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Activities/DestinationSelectionActivity.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Activities/DestinationSelectionActivity.java	(revision )
+@@ -3,42 +3,31 @@
+ import android.app.ProgressDialog;
+ import android.content.Intent;
+ import android.os.AsyncTask;
+-import android.support.v7.app.AppCompatActivity;
+ import android.os.Bundle;
+-import android.util.Log;
++import android.support.v7.app.AppCompatActivity;
+ import android.view.View;
+ import android.view.Window;
+ import android.widget.AdapterView;
+ import android.widget.ListView;
+-import android.widget.Toast;
+ 
+-import com.example.zacharymuller.smartparking.Crypto.CryptoException;
+-import com.example.zacharymuller.smartparking.Crypto.CryptoUtils;
+ import com.example.zacharymuller.smartparking.Entities.Destination;
+-import com.example.zacharymuller.smartparking.Entities.Garage;
+-import com.example.zacharymuller.smartparking.Entities.Spot;
++import com.example.zacharymuller.smartparking.Entities.GarageEntity;
+ import com.example.zacharymuller.smartparking.Entities.User;
+-import com.example.zacharymuller.smartparking.Handlers.HttpDataHandler;
+ import com.example.zacharymuller.smartparking.Handlers.DestinationSortingHandler;
++import com.example.zacharymuller.smartparking.Handlers.HttpDataHandler;
+ import com.example.zacharymuller.smartparking.Handlers.UserLocationSortingHandler;
+ import com.example.zacharymuller.smartparking.R;
+ import com.google.gson.Gson;
+-
+-import org.json.JSONArray;
+-import org.json.JSONException;
+-import org.json.JSONObject;
+-
+-import org.bson.Document;
+-
+-import com.mongodb.BasicDBObject;
+-import com.mongodb.DB;
+-import com.mongodb.DBCollection;
+-import com.mongodb.DBObject;
+ import com.mongodb.MongoClient;
+ import com.mongodb.MongoClientURI;
+ import com.mongodb.client.MongoCollection;
+ import com.mongodb.client.MongoDatabase;
+ 
++import org.bson.Document;
++import org.json.JSONArray;
++import org.json.JSONException;
++import org.json.JSONObject;
++
+ import java.util.ArrayList;
+ import java.util.Collections;
+ 
+@@ -48,9 +37,9 @@
+ 
+     private Destination dest = new Destination();
+ 
+-    private ArrayList<Garage> garages = new ArrayList<>();
++    private ArrayList<GarageEntity> garages = new ArrayList<>();
+ 
+-    ArrayList<Garage> closestGarages = new ArrayList<>();
++    ArrayList<GarageEntity> closestGarages = new ArrayList<>();
+ 
+     private User currentUser;
+ 
+@@ -61,21 +50,6 @@
+         super.onCreate(savedInstanceState);
+         requestWindowFeature(Window.FEATURE_NO_TITLE);
+         setContentView(R.layout.activity_destination_selection);
+-
+-        String key = "SeniorDesignG35!";
+-        String pwd = getResources().getString(R.string.pwd);
+-
+-        Log.i("DESTINATEIONSCREEN", "pwd = " + pwd);
+-
+-        //String pwdDecrypted = "";
+-
+-        //try {
+-        //    pwdDecrypted = CryptoUtils.decrypt(key, pwd);
+-        //    Log.i("DESTINATIONSCREEN", "pwd=" + pwdDecrypted);
+-        //} catch (CryptoException e) {
+-        //    e.printStackTrace();
+-        //}
+-
+         // Get current user from intent
+         Gson gs = new Gson();
+         String currentUserJSON = getIntent().getStringExtra("current user");
+@@ -153,19 +127,19 @@
+ 
+                 // Fill list of Garages
+                 /*** IMPLEMENT FLOOR CREATION WITH "LIVE" SENSOR DATA ***/
+-                garages.add(new Garage("A", "open"/*getGarageStatus("A", 1623)*/, 1623, 28.599628287126819, -81.205337047576904,
++                garages.add(new GarageEntity("A", "open"/*getGarageStatus("A", 1623)*/, 1623, 28.599628287126819, -81.205337047576904,
+                         null));
+-                garages.add(new Garage("B", "open"/*getGarageStatus("B", 1259)*/, 1259, 28.596894840943857, -81.199806207588182,
++                garages.add(new GarageEntity("B", "open"/*getGarageStatus("B", 1259)*/, 1259, 28.596894840943857, -81.199806207588182,
+                         null));
+-                garages.add(new Garage("C", "open"/*getGarageStatus("C", 1852)*/, 1852, 28.60190616876525, -81.19560050385283,
++                garages.add(new GarageEntity("C", "open"/*getGarageStatus("C", 1852)*/, 1852, 28.60190616876525, -81.19560050385283,
+                         null));
+-                garages.add(new Garage("D", "open"/*getGarageStatus("D", 1241)*/, 1241, 28.605372511338587, -81.197520965507493,
++                garages.add(new GarageEntity("D", "open"/*getGarageStatus("D", 1241)*/, 1241, 28.605372511338587, -81.197520965507493,
+                         null));
+-                garages.add(new Garage("H", "open"/*getGarageStatus("H", 1284)*/, 1284, 28.604800000000001, -81.200800000000001,
++                garages.add(new GarageEntity("H", "open"/*getGarageStatus("H", 1284)*/, 1284, 28.604800000000001, -81.200800000000001,
+                         null));
+-                garages.add(new Garage("I", "open"/*getGarageStatus("I", 1231)*/, 1231, 28.601134467682712, -81.205452257564559,
++                garages.add(new GarageEntity("I", "open"/*getGarageStatus("I", 1231)*/, 1231, 28.601134467682712, -81.205452257564559,
+                         null));
+-                garages.add(new Garage("Libra", "open"/*getGarageStatus("Libra", 1007)*/, 1007, 28.595600375707001, -81.196646690368652,
++                garages.add(new GarageEntity("Libra", "open"/*getGarageStatus("Libra", 1007)*/, 1007, 28.595600375707001, -81.196646690368652,
+                         null));
+ 
+                 // Find best garages for chosen destination
+@@ -201,7 +175,7 @@
+     private void findClosestGarages() {
+         // Get distances from every garage to destination and
+         // Get distances from every garage to user's location
+-        for(Garage g : garages) {
++        for (GarageEntity g : garages) {
+             g.setDestinationDistance(Math.hypot((g.getLatitude() - dest.getLatitude()), (g.getLongitude() - dest.getLongitude())));
+             g.setUserDistance(Math.hypot((currentUser.getLatitude() - g.getLatitude()), (currentUser.getLongitude() - g.getLongitude())));
+         }
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Adapters/CardAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Adapters/CardAdapter.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Adapters/CardAdapter.java	(revision )
+@@ -2,23 +2,18 @@
+ 
+ import android.content.Context;
+ import android.content.Intent;
+-import android.support.v7.widget.CardView;
+ import android.support.v7.widget.RecyclerView;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+-import android.widget.ImageView;
+ import android.widget.TextView;
+-import android.widget.Toast;
+ 
+ import com.example.zacharymuller.smartparking.Activities.NavigationActivity;
+-import com.example.zacharymuller.smartparking.Activities.RouteSelectionActivity;
+-import com.example.zacharymuller.smartparking.Entities.Garage;
++import com.example.zacharymuller.smartparking.Entities.GarageEntity;
+ import com.example.zacharymuller.smartparking.Entities.User;
+ import com.example.zacharymuller.smartparking.Models.CardModel;
+ import com.example.zacharymuller.smartparking.R;
+ import com.google.gson.Gson;
+-import com.huxq17.swipecardsview.BaseCardAdapter;
+ 
+ import java.util.ArrayList;
+ import java.util.List;
+@@ -30,14 +25,14 @@
+ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.SwipeableCardViewHolder> {
+     private User currentUser;
+ 
+-    private ArrayList<Garage> closestGarages;
++    private ArrayList<GarageEntity> closestGarages;
+ 
+     private List<CardModel> modelList;
+ 
+     private Context context;
+ 
+ 
+-    public CardAdapter(User currentUser, ArrayList<Garage> closestGarages, List<CardModel> modelList, Context context) {
++    public CardAdapter(User currentUser, ArrayList<GarageEntity> closestGarages, List<CardModel> modelList, Context context) {
+         this.currentUser = currentUser;
+         this.closestGarages = closestGarages;
+         this.modelList = modelList;
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Handlers/DestinationSortingHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Handlers/DestinationSortingHandler.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Handlers/DestinationSortingHandler.java	(revision )
+@@ -1,8 +1,6 @@
+ package com.example.zacharymuller.smartparking.Handlers;
+ 
+-import android.support.annotation.NonNull;
+-
+-import com.example.zacharymuller.smartparking.Entities.Garage;
++import com.example.zacharymuller.smartparking.Entities.GarageEntity;
+ 
+ import java.util.Comparator;
+ 
+@@ -10,9 +8,9 @@
+  * Created by Zach on 1/25/2018.
+  */
+ 
+-public class DestinationSortingHandler implements Comparator<Garage> {
++public class DestinationSortingHandler implements Comparator<GarageEntity> {
+     @Override
+-    public int compare(Garage g1, Garage g2) {
++    public int compare(GarageEntity g1, GarageEntity g2) {
+         if(g1.getDestinationDistance() > g2.getDestinationDistance()) {
+             return 1;
+         }
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Crypto/CryptoUtils.java
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Crypto/CryptoUtils.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Crypto/CryptoUtils.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
+@@ -1,50 +0,0 @@
+-package com.example.zacharymuller.smartparking.Crypto;
+-
+-import java.io.ByteArrayInputStream;
+-import java.io.File;
+-import java.io.FileInputStream;
+-import java.io.FileOutputStream;
+-import java.io.IOException;
+-import java.io.InputStream;
+-import java.security.InvalidKeyException;
+-import java.security.Key;
+-import java.security.NoSuchAlgorithmException;
+-
+-import javax.crypto.BadPaddingException;
+-import javax.crypto.Cipher;
+-import javax.crypto.IllegalBlockSizeException;
+-import javax.crypto.NoSuchPaddingException;
+-import javax.crypto.spec.SecretKeySpec;
+-
+-/**
+- * A utility class that encrypts or decrypts a file.
+- * @author www.codejava.net
+- *
+- */
+-
+-public class CryptoUtils {
+-    private static final String ALGORITHM = "AES";
+-    private static final String TRANSFORMATION = "AES";
+-
+-    public static String decrypt(String key, String input)
+-            throws CryptoException {
+-        return doCrypto(Cipher.DECRYPT_MODE, key, input);
+-    }
+-
+-    private static String doCrypto(int cipherMode, String key, String input) throws CryptoException {
+-        try {
+-            Key secretKey = new SecretKeySpec(key.getBytes(), ALGORITHM);
+-            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+-            cipher.init(cipherMode, secretKey);
+-
+-            byte[] inputBytes = input.getBytes();
+-            byte[] outputBytes = cipher.doFinal(inputBytes);
+-
+-            return new String(outputBytes, "UTF-8");
+-        } catch (NoSuchPaddingException | NoSuchAlgorithmException
+-                | InvalidKeyException | BadPaddingException
+-                | IllegalBlockSizeException | IOException ex) {
+-            throw new CryptoException("Error encrypting/decrypting file", ex);
+-        }
+-    }
+-}
+\ No newline at end of file
+Index: app/src/main/java/com/example/zacharymuller/smartparking/Handlers/UserLocationSortingHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/Handlers/UserLocationSortingHandler.java	(revision 71e7a2d9cc4f02eea60508706872425e73963858)
++++ app/src/main/java/com/example/zacharymuller/smartparking/Handlers/UserLocationSortingHandler.java	(revision )
+@@ -1,6 +1,6 @@
+ package com.example.zacharymuller.smartparking.Handlers;
+ 
+-import com.example.zacharymuller.smartparking.Entities.Garage;
++import com.example.zacharymuller.smartparking.Entities.GarageEntity;
+ 
+ import java.util.Comparator;
+ 
+@@ -8,9 +8,9 @@
+  * Created by Zach on 1/25/2018.
+  */
+ 
+-public class UserLocationSortingHandler implements Comparator<Garage> {
++public class UserLocationSortingHandler implements Comparator<GarageEntity> {
+     @Override
+-    public int compare(Garage g1, Garage g2) {
++    public int compare(GarageEntity g1, GarageEntity g2) {
+         if(g1.getUserDistance() > g2.getUserDistance()) {
+             return 1;
+         }
+Index: app/src/main/java/com/example/zacharymuller/smartparking/APIClient/APIClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/APIClient/APIClient.java	(revision )
++++ app/src/main/java/com/example/zacharymuller/smartparking/APIClient/APIClient.java	(revision )
+@@ -0,0 +1,75 @@
++package com.example.zacharymuller.smartparking.APIClient;
++
++import org.json.JSONArray;
++import org.json.JSONException;
++import org.json.JSONObject;
++
++import java.io.BufferedReader;
++import java.io.IOException;
++import java.io.InputStreamReader;
++import java.net.HttpURLConnection;
++import java.net.URL;
++
++public class APIClient {
++    private static final String REMOTEADDR = "18.218.108.116:3000";
++
++    public static Garage getAllSpots(String garage) throws IOException {
++        String res = req(garage.substring(0, 1).toUpperCase() + "" + garage.substring(1).toLowerCase());
++
++        JSONArray json = null;
++        try {
++            json = new JSONArray(res);
++        } catch (JSONException e) {
++            e.printStackTrace();
++        }
++
++        Spot[] spots = new Spot[json.length()];
++
++        for (int i = 0; i < json.length(); i++) {
++            JSONObject obj = null;
++            try {
++                obj = json.getJSONObject(i);
++            } catch (JSONException e) {
++                e.printStackTrace();
++            }
++            spots[i] = new Spot(obj);
++        }
++
++
++        return new Garage(spots, garage);//new Garage(objs, garage.substring(0, 1).toUpperCase() + "" + garage.substring(1).toLowerCase());
++    }
++
++    public static Spot getSpot(String garage, int id) throws IOException {
++        String res = req(garage.substring(0, 1).toUpperCase() + "" + garage.substring(1).toLowerCase() + "/" + String.format("%04d", id));
++
++        JSONObject obj = null;
++
++        try {
++            obj = new JSONObject(res);
++        } catch (JSONException e) {
++            e.printStackTrace();
++        }
++
++        return new Spot(obj);
++    }
++
++    public static String req(String params) throws IOException {
++        URL url = new URL("http://" + REMOTEADDR + "/spots/" + params);
++        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
++        conn.setRequestMethod("GET");
++        conn.setRequestProperty("Accept", "application/json");
++
++        if (conn.getResponseCode() != 200) {
++            throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
++        }
++
++        BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
++
++        String output;
++        output = br.readLine();
++
++        conn.disconnect();
++
++        return output;
++    }
++}
+Index: app/src/main/java/com/example/zacharymuller/smartparking/APIClient/Spot.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/APIClient/Spot.java	(revision )
++++ app/src/main/java/com/example/zacharymuller/smartparking/APIClient/Spot.java	(revision )
+@@ -0,0 +1,40 @@
++package com.example.zacharymuller.smartparking.APIClient;
++
++import org.json.JSONException;
++import org.json.JSONObject;
++
++public class Spot {
++    private boolean occupied;
++    private int id;
++
++    public Spot(JSONObject obj) {
++        try {
++            this.occupied = obj.getBoolean("occupied");
++        } catch (JSONException e) {
++            e.printStackTrace();
++        }
++        String name = null;
++        try {
++            name = obj.getString("name");
++        } catch (JSONException e) {
++            e.printStackTrace();
++        }
++        this.id = Integer.parseInt(name.substring(7, 11));
++    }
++
++    public boolean isOccupied() {
++        return this.occupied;
++    }
++
++    public int getId() {
++        return this.id;
++    }
++
++    public String toString() {
++        String s = "";
++        s += "\tSpotId: " + String.format("%04d", this.id) + "\n";
++        s += "\tOccupied: " + this.occupied;
++
++        return s;
++    }
++}
+Index: app/src/main/java/com/example/zacharymuller/smartparking/APIClient/RequestTask.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/zacharymuller/smartparking/APIClient/RequestTask.java	(revision )
++++ app/src/main/java/com/example/zacharymuller/smartparking/APIClient/RequestTask.java	(revision )
+@@ -0,0 +1,52 @@
++package com.example.zacharymuller.smartparking.APIClient;
++
++import android.content.Context;
++import android.os.AsyncTask;
++import android.widget.Toast;
++
++import com.example.zacharymuller.smartparking.Activities.HomeActivity;
++
++import java.io.IOException;
++import java.util.ArrayList;
++
++/**
++ * Created by Nathaniel on 2/28/2018.
++ */
++
++public class RequestTask extends AsyncTask<String, Void, ArrayList<Garage>> {
++    private Context context;
++    private HomeActivity activity;
++
++    public RequestTask(Context context, HomeActivity activity) {
++        this.context = context;
++        this.activity = activity;
++    }
++
++    @Override
++    protected ArrayList<Garage> doInBackground(String... params) {
++        Garage g = null;
++        ArrayList<Garage> garageList = new ArrayList<Garage>();
++        try {
++            for (String garage : params) {
++                g = APIClient.getAllSpots(garage);
++                garageList.add(g);
++                g = null;
++            }
++        } catch (IOException e) {
++            e.printStackTrace();
++        }
++
++        return garageList;
++    }
++
++    @Override
++    protected void onPostExecute(ArrayList<Garage> garageList) {
++        super.onPostExecute(garageList);
++        // Figure out toast stuff
++
++        for (Garage g : garageList) {
++            Toast.makeText(context, "Garage" + g.getName() + " spots: " + g.getSize(), Toast.LENGTH_SHORT).show();
++            this.activity.setGarage(g);
++        }
++    }
++}

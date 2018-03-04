@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme">
 
         <!-- Home Activity -->
-        <activity android:name=".Activities.HomeActivity">
+        <activity android:name=".Activities.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +29,6 @@
         </activity>
 
         <!-- Route Selection Activity -->
-        <activity android:name=".Activities.RouteSelectionActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -44,8 +43,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activities.NavigationActivity"
+            android:name=".Activities.RouteSelectionActivity"
             android:label="@string/title_activity_navigation" />
+        <activity android:name=".Activities.NavigationActivity" />
+        <activity android:name=".Activities.RouteDisplayActivity" />
         <activity android:name=".Activities.SpotVizualizerActivity" />
         <activity android:name=".Activities.ArrivalActivity" />
         <activity android:name=".Activities.DestinationSelectionActivity" />

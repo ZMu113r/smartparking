@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.zacharymuller.smartparking.Activities.NavigationActivity;
-import com.example.zacharymuller.smartparking.Entities.GarageEntity;
+import com.example.zacharymuller.smartparking.Activities.RouteDisplayActivity;
+import com.example.zacharymuller.smartparking.Entities.Garage;
 import com.example.zacharymuller.smartparking.Entities.User;
 import com.example.zacharymuller.smartparking.Models.CardModel;
 import com.example.zacharymuller.smartparking.R;
@@ -25,14 +25,14 @@ import java.util.List;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.SwipeableCardViewHolder> {
     private User currentUser;
 
-    private ArrayList<GarageEntity> closestGarages;
+    private ArrayList<Garage> closestGarages;
 
     private List<CardModel> modelList;
 
     private Context context;
 
 
-    public CardAdapter(User currentUser, ArrayList<GarageEntity> closestGarages, List<CardModel> modelList, Context context) {
+    public CardAdapter(User currentUser, ArrayList<Garage> closestGarages, List<CardModel> modelList, Context context) {
         this.currentUser = currentUser;
         this.closestGarages = closestGarages;
         this.modelList = modelList;
@@ -98,7 +98,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.SwipeableCardV
                     String closestGaragesJSON = gs.toJson(closestGarages);
                     String chosenGarageJSON = gs.toJson(garage.getText().toString());
 
-                    Intent intent = new Intent(v.getContext(), NavigationActivity.class);
+                    Intent intent = new Intent(v.getContext(), RouteDisplayActivity.class);
 
                     // re-pack
                     intent.putExtra("current user", currentUserJSON);

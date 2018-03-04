@@ -18,4 +18,5 @@
     <!--Arrival Screen text-->
     <string name="Arrival_text">You Have Arrived!</string>
     <string name="arrival_button_text">New Route</string>
+    <string name="KEY">AIzaSyC_HJHONXJIoS1DieqoQIoOMc1WqUGGgO4</string>
 </resources>
