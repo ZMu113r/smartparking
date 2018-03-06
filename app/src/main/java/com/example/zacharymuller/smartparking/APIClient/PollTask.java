@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.zacharymuller.smartparking.Activities.SpotVisualizerActivity;
 import com.example.zacharymuller.smartparking.Entities.Garage;
 
 import java.io.IOException;
@@ -15,17 +16,19 @@ import java.util.ArrayList;
  */
 
 public class PollTask extends AsyncTask<Void, Void, Void> {
-    private Activity a;
+    private SpotVisualizerActivity a;
     private boolean quittingTime = false;
 
     private ArrayList<Edit> q;
     Garage garage;
 
-    public PollTask(Garage g, Activity a) {
+    public PollTask(Garage g, SpotVisualizerActivity a) {
         this.a = a;
         this.garage = g;
 
         this.q = new ArrayList<Edit>();
+
+        Log.i("GARAGELISTENER", "Task created");
     }
 
     public synchronized void setShouldQuit() {
@@ -34,6 +37,7 @@ public class PollTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+
         while (!quittingTime) {
             try {
                 Garage g = APIClient.getAllSpots(garage.getName());
@@ -56,8 +60,16 @@ public class PollTask extends AsyncTask<Void, Void, Void> {
         super.onProgressUpdate(progress);
         Spot s = q.remove(0).getSpot();
         if (s != null) {
-            Toast.makeText(this.a.getApplicationContext(), String.format("sensor_%04d_garage%s changed from ", s.getId(), garage.getName().toLowerCase()) + !s.isOccupied() + " to " + s.isOccupied(), Toast.LENGTH_SHORT).show();
-            Log.i("GARAGELISTENER", String.format("[UPDATE] sensor_%04d_garage%s changed from ", s.getId(), garage.getName().toLowerCase()) + !s.isOccupied() + " to " + s.isOccupied());
+            a.setSpot(s.getId(), s);
+            Toast.makeText(this.a.getApplicationContext(), String.format("sensor_%04d_garage%s changed from ", s.getId(), garage.getName().toLowerCase()) + occupiedStatus(!s.isOccupied()) + " to " + occupiedStatus(s.isOccupied()), Toast.LENGTH_SHORT).show();
+            Log.i("GARAGELISTENER", String.format("[UPDATE] sensor_%04d_garage%s changed from ", s.getId(), garage.getName().toLowerCase()) + occupiedStatus(!s.isOccupied()) + " to " + occupiedStatus(s.isOccupied()));
+        } else {
+            Log.i("GARAGELISTENER", "s is null");
         }
+    }
+
+    private String occupiedStatus(boolean status) {
+        if(status) return "Occupied";
+        else return "Unoccupied";
     }
 }

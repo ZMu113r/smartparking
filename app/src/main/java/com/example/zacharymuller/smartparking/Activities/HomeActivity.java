@@ -45,6 +45,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         new RequestTask(this.getApplicationContext(), this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "A", "B", "C", "D", "H", "I", "Libra", "Test");
+        // Faster, call initialization on 5 garages at once, and execute the remaining as the other threads are freed up
+        //new InitializationCallerTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         //final PollTask pollTask = new PollTask(g[7], HomeActivity.this);
         //pollTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

@@ -20,7 +20,6 @@ import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerMode;
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin;
-import com.mapbox.services.android.navigation.ui.v5.NavigationViewOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
@@ -43,7 +42,6 @@ import com.mapbox.services.android.telemetry.permissions.PermissionsManager;
 
 import android.view.View;
 import android.widget.Button;
-import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 
 import java.util.List;
 
@@ -67,51 +65,53 @@ public class RouteDisplayActivity extends FragmentActivity implements LocationEn
 
     private Button button;
 
+    public static boolean navigationCalled = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this, "pk.eyJ1Ijoibjhob3VsIiwiYSI6ImNqZWQ1c2g4MzFmdHMycGxuZW03aW44ZnoifQ.tctQ1Hd69Bw3zWdqn56How");
-        setContentView(R.layout.activity_route_display);
-        mapView = (MapView) findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
+            Mapbox.getInstance(this, "pk.eyJ1Ijoibjhob3VsIiwiYSI6ImNqZWQ1c2g4MzFmdHMycGxuZW03aW44ZnoifQ.tctQ1Hd69Bw3zWdqn56How");
+            setContentView(R.layout.activity_route_display);
+            mapView = (MapView) findViewById(R.id.mapView);
+            mapView.onCreate(savedInstanceState);
 
-        button = findViewById(R.id.startNavButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Point origin = originPosition;
-                Point destination = destinationPosition;
+            button = findViewById(R.id.startNavButton);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Point origin = originPosition;
+                    Point destination = destinationPosition;
 
-                // Pass in your Amazon Polly pool id for speech synthesis using Amazon Polly
-                // Set to null to use the default Android speech synthesizer
-                String awsPoolId = null;
+                    // Pass in your Amazon Polly pool id for speech synthesis using Amazon Polly
+                    // Set to null to use the default Android speech synthesizer
+                    String awsPoolId = null;
 
-                boolean simulateRoute = true;
+                    boolean simulateRoute = true;
 
-                Intent intent = new Intent(RouteDisplayActivity.this, NavigationActivity.class);
-                intent.putExtra("origin", origin);
-                intent.putExtra("destination", destination);
-                intent.putExtra("awsPoolId", awsPoolId);
-                intent.putExtra("simulateRoute", simulateRoute);
+                    Intent intent = new Intent(RouteDisplayActivity.this, NavigationActivity.class);
+                    intent.putExtra("origin", origin);
+                    intent.putExtra("destination", destination);
+                    intent.putExtra("awsPoolId", awsPoolId);
+                    intent.putExtra("simulateRoute", simulateRoute);
 
-                startActivity(intent);
+                    startActivity(intent);
+                }
+            });
+
+            Gson gs = new Gson();
+
+            String currentUserJSON = getIntent().getStringExtra("current user");
+            String closestGaragesJSON = getIntent().getStringExtra("closest garages");
+            String chosenGarageJSON = getIntent().getStringExtra("chosen garage");
+
+            currentUser = gs.fromJson(currentUserJSON, User.class);
+            String chosenGarage = gs.fromJson(chosenGarageJSON, String.class);
+
+            for (Garage g : Garages.getClosestGarages()) {
+                if (g.getName().compareTo(chosenGarage) == 0)
+                    destination = g;
             }
-        });
 
-        Gson gs = new Gson();
-
-        String currentUserJSON = getIntent().getStringExtra("current user");
-        String closestGaragesJSON = getIntent().getStringExtra("closest garages");
-        String chosenGarageJSON = getIntent().getStringExtra("chosen garage");
-
-        currentUser = gs.fromJson(currentUserJSON, User.class);
-        String chosenGarage = gs.fromJson(chosenGarageJSON, String.class);
-
-        for (Garage g : Garages.getClosestGarages()) {
-            if(g.getName().compareTo(chosenGarage) == 0)
-                destination = g;
-        }
-
-        mapView.getMapAsync(this);
+            mapView.getMapAsync(this);
     }
 
     @SuppressWarnings( {"MissingPermission"})
@@ -292,7 +292,16 @@ public class RouteDisplayActivity extends FragmentActivity implements LocationEn
     @Override
     public void onResume() {
         super.onResume();
-        mapView.onResume();
+        if(navigationCalled) {
+            Intent intent = new Intent(this, SpotVisualizerActivity.class);
+            intent.putExtra("chosengarage", destination.getName());
+
+            navigationCalled = false;
+            startActivity(intent);
+            finish();
+        } else {
+            mapView.onResume();
+        }
     }
 
     @Override

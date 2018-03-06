@@ -13,7 +13,12 @@ import com.example.zacharymuller.smartparking.Entities.User;
 import com.example.zacharymuller.smartparking.Handlers.DestinationSortingHandler;
 import com.example.zacharymuller.smartparking.Handlers.HttpDataHandler;
 import com.example.zacharymuller.smartparking.Handlers.UserLocationSortingHandler;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.mapbox.services.api.geocoding.v5.MapboxGeocoding;
+import com.mapbox.services.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.services.api.geocoding.v5.models.GeocodingResponse;
+import com.mapbox.services.commons.models.Position;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,18 +26,25 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Nathaniel on 3/3/2018.
  */
 
-public class CoordinateFetchTask extends AsyncTask<String, Void, String> {
+public class CoordinateFetchTask extends AsyncTask<String, Void, LatLng> {
     private ArrayList<Garage> closestGarages = new ArrayList<>();
     private ArrayList<Garage> garages;
 
     private DestinationSelectionActivity activity;
     private Destination dest;
     private User currentUser;
+
+    private LatLng latLong = null;
 
     public CoordinateFetchTask(DestinationSelectionActivity activity) {
         this.activity = activity;
@@ -45,39 +57,20 @@ public class CoordinateFetchTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
-        String response = null;
-        try {
+    protected LatLng doInBackground(String... strings) {
             String address = strings[0];
+            Log.i("CoordFetch", address);
 
-            HttpDataHandler http = new HttpDataHandler();
 
-            String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?address=%s", address);
 
-            response = http.getHttpData(url);
-
-            //onPostExecute(response);
-
-            return  response;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return response;
+        return  latLong;
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        try {
-            // Get users destination
-            JSONObject jsonObject = new JSONObject(s);
-
-            String lat = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
-                    .getJSONObject("location").get("lat").toString();
-            String lng = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
-                    .getJSONObject("location").get("lng").toString();
-
-            dest.setLatitude(Double.parseDouble(lat));
-            dest.setLongitude(Double.parseDouble(lng));
+    protected void onPostExecute(LatLng pos) {
+        super.onPostExecute(pos);
+            dest.setLatitude(pos.latitude);
+            dest.setLongitude(pos.longitude);
 
 
             for (Garage g : garages) {
@@ -125,8 +118,5 @@ public class CoordinateFetchTask extends AsyncTask<String, Void, String> {
             intent.putExtra("destination", destinationJSON);
 
             activity.startActivity(intent);
-        } catch (JSONException je) {
-            je.printStackTrace();
-        }
     }
 }

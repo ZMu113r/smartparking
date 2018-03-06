@@ -5,6 +5,7 @@ android {
     defaultConfig {
         applicationId "com.example.zacharymuller.smartparking"
         minSdkVersion 21
+        multiDexEnabled true
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -49,6 +50,7 @@ dependencies {
 
     compile 'com.google.android.gms:play-services:11.8.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:5.5.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:3.0.0-beta.3'
 
     implementation ('com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.10.0') {
         transitive = true

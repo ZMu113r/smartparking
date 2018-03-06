@@ -155,7 +155,7 @@ public class Garage implements Parcelable, Serializable {
         dest.writeDouble(longitude);
     }
 
-    private Garage(Parcel in) {
+    public Garage(Parcel in) {
         this.spots = (com.example.zacharymuller.smartparking.APIClient.Spot[])in.readArray(this.getClass().getClassLoader());
         this.name = in.readString();
         this.latitude = in.readDouble();

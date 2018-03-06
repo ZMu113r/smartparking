@@ -84,6 +84,9 @@ public class NavigationActivity extends FragmentActivity implements NavigationLi
                 .shouldSimulateRoute(simulateRoute)
                 .build();
 
+        // Testing - Remove after
+        this.onNavigationFinished();
+        RouteDisplayActivity.navigationCalled = true;
         navigationView.startNavigation(options);
     }
 

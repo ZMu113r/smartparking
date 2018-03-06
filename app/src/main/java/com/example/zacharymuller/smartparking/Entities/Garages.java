@@ -45,8 +45,7 @@ public class Garages {
     }
 
     public static void resetClosestGarages() {
-        while(!closestGarages.isEmpty()) {
-            closestGarages.remove(0);
-        }
+        closestGarages = null;
+        closestGarages = new ArrayList<>();
     }
 }
