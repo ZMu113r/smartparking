@@ -44,7 +44,7 @@ public class SpotVisualizerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pollTask.setShouldQuit();
-                Intent intent = new Intent(SpotVisualizerActivity.this, HomeActivity.class);
+                Intent intent = new Intent(SpotVisualizerActivity.this, SplashScreenActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 startActivity(intent);

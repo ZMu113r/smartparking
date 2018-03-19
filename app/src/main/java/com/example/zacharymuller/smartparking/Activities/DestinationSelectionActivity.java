@@ -1,6 +1,7 @@
 package com.example.zacharymuller.smartparking.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
@@ -41,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DestinationSelectionActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class DestinationSelectionActivity extends Activity implements AdapterView.OnItemClickListener {
 
     private ListView lvData;
 
@@ -137,12 +138,12 @@ public class DestinationSelectionActivity extends AppCompatActivity implements A
                     garages = new ArrayList<>();
 
                     for(Garage g: Garages.getGarages())
+                    {
                         garages.add(g);
+                    }
+
 
                     for (Garage g : garages) {
-                        if(g == null) {
-                            Log.i("DestinationActivity", "Garage is null");
-                        }
                         g.setDestinationDistance(Math.hypot((g.getLatitude() - dest.getLatitude()), (g.getLongitude() - dest.getLongitude())));
                         g.setUserDistance(Math.hypot((currentUser.getLatitude() - g.getLatitude()), (currentUser.getLongitude() - g.getLongitude())));
                     }

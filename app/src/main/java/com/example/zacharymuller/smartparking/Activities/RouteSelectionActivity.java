@@ -2,11 +2,13 @@ package com.example.zacharymuller.smartparking.Activities;
 
 // Use the JSON streaming API
 
+import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Window;
 
 import com.example.zacharymuller.smartparking.Adapters.CardAdapter;
 import com.example.zacharymuller.smartparking.Entities.Destination;
@@ -20,7 +22,7 @@ import com.huxq17.swipecardsview.SwipeCardsView;
 
 import java.util.ArrayList;
 
-public class RouteSelectionActivity extends AppCompatActivity {
+public class RouteSelectionActivity extends Activity {
     // UI members
     private RecyclerView recyclerView;
     private SwipeCardsView swipeCardsView;
@@ -34,6 +36,8 @@ public class RouteSelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_route_selection);
 
         // unpack
@@ -79,7 +83,6 @@ public class RouteSelectionActivity extends AppCompatActivity {
         }
 
         // Create adapter
-        cardAdapter = new CardAdapter(currentUser, Garages.getClosestGarages(), cardModelList, this);
         cardAdapter = new CardAdapter(currentUser, Garages.getClosestGarages(), cardModelList, this);
         recyclerView.setAdapter(cardAdapter);
     }

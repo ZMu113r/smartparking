@@ -10,6 +10,7 @@
 
     <!--Destination Selection text-->
     <string name="destination_selection_text">Select where on campus you\'d like to go</string>
+    <string name="garage_selection_text">Select which garage you\'d like to navigate to</string>
     <string name="divider">----------------------------------------------------------------------------------------</string>
 
     <!--Loading Screen text-->

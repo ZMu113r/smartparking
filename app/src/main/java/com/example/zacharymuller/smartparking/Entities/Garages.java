@@ -1,5 +1,7 @@
 package com.example.zacharymuller.smartparking.Entities;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -47,5 +49,14 @@ public class Garages {
     public static void resetClosestGarages() {
         closestGarages = null;
         closestGarages = new ArrayList<>();
+    }
+
+    //For Debugging Purposes
+    public static void isThisNull ()
+    {
+        for (Garage g : garages) {
+            if (g == null) Log.i("debug", "isThisNull: yes");
+            else Log.i("debug", "isThisNull: no");
+        }
     }
 }

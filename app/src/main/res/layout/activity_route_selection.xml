@@ -1,34 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_route_selection"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    tools:context="com.example.zacharymuller.smartparking.Activities.RouteSelectionActivity"
-    android:background="@color/colorPrimaryDark">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_route_selection"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"/>
+        android:layout_gravity="center"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        tools:context="com.example.zacharymuller.smartparking.Activities.RouteSelectionActivity"
+        >
 
-    <!--<com.huxq17.swipecardsview.SwipeCardsView
-        android:id="@+id/swipeCardsView"
-        android:background="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:alphaOffsetStep="20"
-        app:scaleOffsetStep="0.08"
-        app:yOffsetStep="20dp">
-    </com.huxq17.swipecardsview.SwipeCardsView>-->
-</RelativeLayout>
+        <TextView
+            android:id="@+id/garage_selection_text"
+            android:layout_width="320dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="80dp"
+            android:gravity="center"
+            android:text="@string/garage_selection_text"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/divider2"
+            app:layout_constraintStart_toStartOf="@+id/divider2"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/divider2"
+            android:layout_width="356dp"
+            android:layout_height="14dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="85dp"
+            android:text="@string/divider"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/garage_selection_text"
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_below="@id/garage_selection_text"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_below="@+id/divider2"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentBottom="true"/>
+
+        <!--<com.huxq17.swipecardsview.SwipeCardsView
+            android:id="@+id/swipeCardsView"
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:alphaOffsetStep="20"
+            app:scaleOffsetStep="0.08"
+            app:yOffsetStep="20dp">
+        </com.huxq17.swipecardsview.SwipeCardsView>-->
+    </RelativeLayout>
