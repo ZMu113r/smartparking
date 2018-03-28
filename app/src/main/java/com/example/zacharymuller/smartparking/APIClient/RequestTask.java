@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -12,20 +13,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.zacharymuller.smartparking.Activities.DestinationSelectionActivity;
-import com.example.zacharymuller.smartparking.Activities.HomeActivity;
 import com.example.zacharymuller.smartparking.Activities.SplashScreenActivity;
 import com.example.zacharymuller.smartparking.Entities.Garage;
 import com.example.zacharymuller.smartparking.Entities.Garages;
 import com.example.zacharymuller.smartparking.Entities.User;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Nathaniel on 2/28/2018.
@@ -35,8 +30,6 @@ public class RequestTask extends AsyncTask<String, Void, ArrayList<Garage>> {
     private SplashScreenActivity activity;
     private Context context;
 
-    private FusedLocationProviderClient mFusedLocationClient;
-    private int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
     private User currentUser;
 
     public RequestTask(SplashScreenActivity activity) {
@@ -103,7 +96,22 @@ public class RequestTask extends AsyncTask<String, Void, ArrayList<Garage>> {
             // end region
         }
 
+        LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
 
+        currentUser = new User("not parked", longitude, latitude);
+
+        Gson gs = new Gson();
+        Intent intent = new Intent(activity,DestinationSelectionActivity.class);
+
+        String currentUserJSON = gs.toJson(currentUser);
+        intent.putExtra("curruser", currentUserJSON);
+        activity.startActivity(intent);
+        activity.finish();
+
+        /*
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(activity, new OnSuccessListener<Location>() {
@@ -129,5 +137,6 @@ public class RequestTask extends AsyncTask<String, Void, ArrayList<Garage>> {
 
                     }
                 });
+         */
     }
 }

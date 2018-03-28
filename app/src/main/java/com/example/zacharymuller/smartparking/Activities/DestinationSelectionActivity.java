@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.zacharymuller.smartparking.Entities.Destination;
 import com.example.zacharymuller.smartparking.Entities.Garage;
@@ -22,15 +21,9 @@ import com.example.zacharymuller.smartparking.Entities.User;
 
 import com.example.zacharymuller.smartparking.Handlers.DestinationSortingHandler;
 import com.example.zacharymuller.smartparking.Handlers.UserLocationSortingHandler;
-import com.example.zacharymuller.smartparking.Tasks.CoordinateFetchTask;
 import com.example.zacharymuller.smartparking.R;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.google.gson.Gson;
-import com.mapbox.api.geocoding.v5.MapboxGeocoding;
-import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.services.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.services.api.geocoding.v5.models.GeocodingResponse;
 
@@ -51,7 +44,6 @@ public class DestinationSelectionActivity extends Activity implements AdapterVie
     private ArrayList<Garage> garages = new ArrayList<>();
     private ArrayList<Garage> closestGarages = new ArrayList<>();
 
-    private FusedLocationProviderClient locationClient;
     private LatLng latLng = null;
 
     private User currentUser;
@@ -132,8 +124,8 @@ public class DestinationSelectionActivity extends Activity implements AdapterVie
                 if (results.size() > 0) {
                     // Log the first results position.
                     latLng = new LatLng(results.get(0).asPosition().getLatitude(), results.get(0).asPosition().getLongitude());
-                    dest.setLatitude(latLng.latitude);
-                    dest.setLongitude(latLng.longitude);
+                    dest.setLatitude(latLng.getLatitude());
+                    dest.setLongitude(latLng.getLongitude());
 
                     garages = new ArrayList<>();
 
@@ -188,7 +180,7 @@ public class DestinationSelectionActivity extends Activity implements AdapterVie
                     intent.putExtra("destination", destinationJSON);
 
                     startActivity(intent);
-                    Log.i("CoordFetch", latLng.latitude + ", " + latLng.longitude);
+                    Log.i("CoordFetch", latLng.getLatitude() + ", " + latLng.getLongitude());
                 } else {
                     // No result for your request were found.
                     Log.d("CoordFetch", "onResponse: No result found");

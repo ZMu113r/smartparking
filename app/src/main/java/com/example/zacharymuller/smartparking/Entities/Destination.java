@@ -2,12 +2,6 @@ package com.example.zacharymuller.smartparking.Entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.lang.System.out;
 
 /**
  * Created by Zach on 1/4/2018.
