@@ -67,19 +67,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.SwipeableCardV
 
         String spots = "Open spots: " + String.valueOf(cardmodel.getNumSpotsLeft());
         String arrival_time = "Will arrive at: " + String.valueOf(cardmodel.getTimeToArrive());
-        String walking_time = "Walk distance in: " + String.valueOf(cardmodel.getWalkingTime());
+        String proximity = "Proximity: " + String.valueOf(cardmodel.getProximity());
 
         holder.garage.setText(String.valueOf(cardmodel.getgarage()));
         holder.spots_left.setText(spots);
         holder.arrival_time.setText(arrival_time);
-        holder.walking_time.setText(walking_time);
+        holder.proximity.setText(proximity);
     }
 
     public class SwipeableCardViewHolder extends RecyclerView.ViewHolder {
         protected TextView garage;
         protected TextView spots_left;
         protected TextView arrival_time;
-        protected TextView walking_time;
+        protected TextView proximity;
 
         public SwipeableCardViewHolder(View itemView) {
             super(itemView);
@@ -87,7 +87,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.SwipeableCardV
             garage = itemView.findViewById(R.id.garage);
             spots_left = itemView.findViewById(R.id.spots_left);
             arrival_time = itemView.findViewById(R.id.arrival_time);
-            walking_time = itemView.findViewById(R.id.walking_time);
+            proximity = itemView.findViewById(R.id.walking_time);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

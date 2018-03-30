@@ -13,14 +13,14 @@ public class CardModel {
 
     private String timeToArrive;
 
-    private String walkingTime;
+    private String proximity;
 
 
-    public CardModel(String garage, int numSpotsLeft, String timeToArrive, String walkingTime) {
+    public CardModel(String garage, int numSpotsLeft, String timeToArrive, String proximity) {
         this.garage = garage;
         this.numSpotsLeft = numSpotsLeft;
         this.timeToArrive = timeToArrive;
-        this.walkingTime = walkingTime;
+        this.proximity = proximity;
     }
 
     // Getters
@@ -34,7 +34,7 @@ public class CardModel {
 
     public String getTimeToArrive() { return  timeToArrive; }
 
-    public String getWalkingTime() { return  walkingTime; }
+    public String getProximity() { return  proximity; }
 
 
     // Setters
@@ -48,5 +48,5 @@ public class CardModel {
 
     public  void  setTimeToArrive(String timeToArrive) { this.timeToArrive = timeToArrive; }
 
-    public void setWalkingTime(String walkingTime) { this.walkingTime = walkingTime; }
+    public void setProximity(String proximity) { this.proximity = proximity; }
 }
