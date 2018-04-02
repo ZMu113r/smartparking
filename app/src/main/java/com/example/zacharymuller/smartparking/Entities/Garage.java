@@ -18,6 +18,7 @@ public class Garage implements Parcelable, Serializable {
     private double longitude;
     private double destinationDistance;
     private double userDistance;
+    private int floors;
     //private ArrayList<Floor> floors;
     private com.example.zacharymuller.smartparking.APIClient.Spot[] spots;
 
@@ -25,6 +26,7 @@ public class Garage implements Parcelable, Serializable {
         this.name = name;
         //this.status = status;
         this.size = spots.length;
+        this.floors = (int)Math.ceil((double)size / 290.0);
         this.spots = spots;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -37,6 +39,8 @@ public class Garage implements Parcelable, Serializable {
 //
 //    public int getCapacity() { return  capacity; }
 //
+    public int getFloors() { return this.floors; }
+
     public double getLatitude() {
         return latitude;
     }

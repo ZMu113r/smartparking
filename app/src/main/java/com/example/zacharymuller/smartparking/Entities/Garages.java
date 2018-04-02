@@ -14,6 +14,8 @@ public class Garages {
     private static ArrayList<Garage> closestGarages;
     private static HashMap<String, Integer> indices;
 
+    private static int floor;
+
     public static void initGarages(String[] keys) {
         garages = new Garage[keys.length];
         indices = new HashMap<>();
@@ -23,8 +25,13 @@ public class Garages {
             indices.put(key, count++);
         }
 
+        floor = 0;
         closestGarages = new ArrayList<>();
     }
+
+    public static void setFloor(int f) { floor = f; }
+
+    public static int getFloor() { return floor; }
 
     public static ArrayList<Garage> getClosestGarages() {
         return closestGarages;

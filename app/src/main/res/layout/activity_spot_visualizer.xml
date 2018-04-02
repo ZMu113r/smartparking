@@ -12,8 +12,7 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     tools:context="com.example.zacharymuller.smartparking.Activities.SpotVisualizerActivity"
-    android:background="@color/colorPrimaryDark">
-
+    >
     <com.example.zacharymuller.smartparking.APIClient.ParkingGarageView
         android:id="@+id/parkingGarageView"
         android:layout_width="match_parent"
@@ -29,5 +28,13 @@
         android:background="@color/mapboxBlue"
         android:textColor="@color/mapboxWhite"
         android:enabled="true"
+        />
+
+    <TextView
+        android:id="@+id/floorText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Floor 1"
         />
 </RelativeLayout>

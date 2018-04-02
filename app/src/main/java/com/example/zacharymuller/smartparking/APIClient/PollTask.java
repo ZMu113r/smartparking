@@ -2,11 +2,13 @@ package com.example.zacharymuller.smartparking.APIClient;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.zacharymuller.smartparking.Activities.SpotVisualizerActivity;
 import com.example.zacharymuller.smartparking.Entities.Garage;
+import com.example.zacharymuller.smartparking.Entities.Garages;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,10 +39,25 @@ public class PollTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+        long start = SystemClock.elapsedRealtime();
+        long elapsed = 0;
+
+        int floor = 0;
+        int floors = this.garage.getFloors();
 
         while (!quittingTime) {
+            elapsed += SystemClock.elapsedRealtime() - start;
+            start = SystemClock.elapsedRealtime();
+
+            if((double)elapsed / 1000.0 >= 10) {
+                elapsed = 0;
+                Garages.setFloor(++floor % floors);
+                a.forceRedraw();
+                //Log.i("STATESWAP", "Switched floor to: " + new String(floor % floors + ""));
+            }
             try {
                 Garage g = APIClient.getAllSpots(garage.getName());
+
                 com.example.zacharymuller.smartparking.APIClient.Spot[] changes = g.diff(garage);
                 for (Spot s : changes) {
                     q.add(new Edit(g.getName(), s));

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.zacharymuller.smartparking.APIClient.ParkingGarageView;
 import com.example.zacharymuller.smartparking.APIClient.PollTask;
@@ -16,11 +17,15 @@ import com.example.zacharymuller.smartparking.Entities.Garages;
 import com.example.zacharymuller.smartparking.R;
 
 public class SpotVisualizerActivity extends AppCompatActivity {
+    /*
+    * 290 Spots on one floor, store state of floor
+    * */
     private Garage garage;
     private Button setParkedButton;
     private PollTask pollTask;
 
     private ParkingGarageView pgView;
+    private TextView floorText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +37,11 @@ public class SpotVisualizerActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        garage = Garages.getGarage("Test"); //Garages.getGarage(bundle.getString("chosengarage"));
+        garage = Garages.getGarage("A"); //Garages.getGarage(bundle.getString("chosengarage"));
 
         pgView = findViewById(R.id.parkingGarageView);
         pgView.setGarage(garage);
+        floorText = findViewById(R.id.floorText);
 
         pollTask = new PollTask(garage, this);
 
@@ -57,5 +63,11 @@ public class SpotVisualizerActivity extends AppCompatActivity {
 
     public void setSpot(int i, Spot spot) {
         pgView.setSpot(i, spot);
+    }
+
+    public void forceRedraw() {
+        floorText.clearComposingText();
+        floorText.setText(String.format("Floor %1d", Garages.getFloor() + 1));
+        pgView.forceRedraw();
     }
 }
