@@ -49,7 +49,7 @@ public class PollTask extends AsyncTask<Void, Void, Void> {
             elapsed += SystemClock.elapsedRealtime() - start;
             start = SystemClock.elapsedRealtime();
 
-            if((double)elapsed / 1000.0 >= 10) {
+            if((double)elapsed / 1000.0 >= 7) {
                 elapsed = 0;
                 Garages.setFloor(++floor % floors);
                 a.forceRedraw();
@@ -76,6 +76,7 @@ public class PollTask extends AsyncTask<Void, Void, Void> {
     protected void onProgressUpdate(Void... progress) {
         super.onProgressUpdate(progress);
         Spot s = q.remove(0).getSpot();
+        a.forceRedraw();
         if (s != null) {
             a.setSpot(s.getId(), s);
             Toast.makeText(this.a.getApplicationContext(), String.format("sensor_%04d_garage%s changed from ", s.getId(), garage.getName().toLowerCase()) + occupiedStatus(!s.isOccupied()) + " to " + occupiedStatus(s.isOccupied()), Toast.LENGTH_SHORT).show();
