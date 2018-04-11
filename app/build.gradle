@@ -31,20 +31,20 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     // JSON dependency
-    compile 'javax.json:javax.json-api:1.0-b01'
+    implementation 'javax.json:javax.json-api:1.0-b01'
     // Swipe Cards View Libraries
-    compile 'com.huxq17.android:SwipeCardsView:1.3.4'
-    compile 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.huxq17.android:SwipeCardsView:1.3.4'
+    implementation 'com.android.support:cardview-v7:26.1.0'
     // GSON dependency
-    compile 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.2'
     // Retrofit dependency for Google HTTP client
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
     // Mongoose dependency
-    compile 'org.mongodb:mongo-java-driver:3.6.1'
-    compile 'com.github.jd-alexander:library:1.1.0'
+    implementation 'org.mongodb:mongo-java-driver:3.6.1'
+    implementation 'com.github.jd-alexander:library:1.1.0'
 
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:5.5.0'

@@ -98,8 +98,9 @@ public class RequestTask extends AsyncTask<String, Void, ArrayList<Garage>> {
 
         LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double latitude = /*(location == null ? 0 : */location.getLatitude();//);
-        double longitude = /*(location == null ? 0 : */location.getLongitude();//);
+        location = null;
+        double latitude = (location == null ? 28.600686 : location.getLatitude());
+        double longitude = (location == null ? -81.197452 : location.getLongitude());
 
         currentUser = new User("not parked", longitude, latitude);
 
