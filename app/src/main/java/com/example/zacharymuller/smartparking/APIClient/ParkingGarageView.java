@@ -19,6 +19,7 @@ public class ParkingGarageView extends View {
     private Paint paintRed;
     private Paint paintGreen;
     private Paint paintWhite;
+    private Paint paintGray;
     Garage garage;
 
     public ParkingGarageView(Context context) {
@@ -35,6 +36,10 @@ public class ParkingGarageView extends View {
         paintWhite = new Paint();
         paintWhite.setColor(Color.GRAY);
         paintWhite.setStyle(Paint.Style.FILL);
+
+        paintGray = new Paint();
+        paintGray.setColor(Color.GRAY);
+        paintGray.setStyle(Paint.Style.FILL);
     }
 
     public ParkingGarageView(Context context, AttributeSet attrs) {
@@ -51,6 +56,10 @@ public class ParkingGarageView extends View {
         paintWhite = new Paint();
         paintWhite.setColor(Color.WHITE);
         paintWhite.setStyle(Paint.Style.FILL);
+
+        paintGray = new Paint();
+        paintGray.setColor(Color.GRAY);
+        paintGray.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -78,6 +87,8 @@ public class ParkingGarageView extends View {
            int spot = 0 + startSpot;
            Paint selectedPaint = paintWhite;
 
+           canvas.drawRect(20, getMeasuredHeight() / 6 + 38, getMeasuredWidth() - 40, getMeasuredHeight() - 12, paintGray);
+
            canvas.save();
            // Draw Top Row
            canvas.translate(getMeasuredWidth() / 2 - (20 * 15 + 10 * 15) / 2, getMeasuredHeight() / 2 - 430);
@@ -91,7 +102,7 @@ public class ParkingGarageView extends View {
                        selectedPaint = paintGreen;
                    }
                } else {
-                   selectedPaint = paintWhite;
+                   selectedPaint = paintGray;
                }
 
                canvas.drawRect(left, 0, left + 20, 40, selectedPaint);
@@ -103,7 +114,7 @@ public class ParkingGarageView extends View {
            for(int i = 0; i < 4; i++) {
                float left = 20 * i + 10 * i;
 
-               selectedPaint = paintWhite;
+               selectedPaint = paintGray;
 
                if(spot < garage.getSize()) {
                    if(garage.getSpot(spot).isOccupied()) {
@@ -112,7 +123,7 @@ public class ParkingGarageView extends View {
                        selectedPaint = paintGreen;
                    }
                } else {
-                   selectedPaint = paintWhite;
+                   selectedPaint = paintGray;
                }
 
                canvas.drawRect(left, 0, left + 20, 40, selectedPaint);
@@ -135,7 +146,7 @@ public class ParkingGarageView extends View {
                            selectedPaint = paintGreen;
                        }
                    } else {
-                       selectedPaint = paintWhite;
+                       selectedPaint = paintGray;
                    }
 
                    canvas.drawRect(left, top, left + 40, top + 20, selectedPaint);
@@ -158,7 +169,7 @@ public class ParkingGarageView extends View {
                        selectedPaint = paintGreen;
                    }
                } else {
-                   selectedPaint = paintWhite;
+                   selectedPaint = paintGray;
                }
 
                canvas.drawRect(left, 0, left + 20, 40, selectedPaint);
@@ -177,7 +188,7 @@ public class ParkingGarageView extends View {
                        selectedPaint = paintGreen;
                    }
                } else {
-                   selectedPaint = paintWhite;
+                   selectedPaint = paintGray;
                }
 
                canvas.drawRect(left, 0, left + 20, 40, selectedPaint);

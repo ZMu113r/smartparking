@@ -27,6 +27,9 @@ public class SpotVisualizerActivity extends AppCompatActivity {
     private ParkingGarageView pgView;
     private TextView floorText;
 
+    private int floor;
+    private int floors;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,17 @@ public class SpotVisualizerActivity extends AppCompatActivity {
 
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        floor = 0;
+        floors = this.garage.getFloors();
+
+        pgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Garages.setFloor(++floor % floors);
+                forceRedraw();
             }
         });
 

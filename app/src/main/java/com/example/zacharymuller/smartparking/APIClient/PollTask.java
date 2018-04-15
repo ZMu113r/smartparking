@@ -42,19 +42,15 @@ public class PollTask extends AsyncTask<Void, Void, Void> {
         long start = SystemClock.elapsedRealtime();
         long elapsed = 0;
 
-        int floor = 0;
-        int floors = this.garage.getFloors();
-
         while (!quittingTime) {
             elapsed += SystemClock.elapsedRealtime() - start;
             start = SystemClock.elapsedRealtime();
 
-            if((double)elapsed / 1000.0 >= 7) {
-                elapsed = 0;
-                Garages.setFloor(++floor % floors);
-                a.forceRedraw();
+            //if((double)elapsed / 1000.0 >= 7) {
+            //    elapsed = 0;
+
                 //Log.i("STATESWAP", "Switched floor to: " + new String(floor % floors + ""));
-            }
+            //}
             try {
                 Garage g = APIClient.getAllSpots(garage.getName());
 

@@ -18,23 +18,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:id="@+id/floorText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:textAlignment="center"
+        android:text="Floor 1"
+        />
+
     <Button
         android:id="@+id/setParkedButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:layout_margin="20dp"
+        android:layout_margin="30dp"
         android:text="I've Parked"
         android:background="@color/mapboxBlue"
         android:textColor="@color/mapboxWhite"
         android:enabled="true"
         />
 
-    <TextView
-        android:id="@+id/floorText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Floor 1"
-        />
 </RelativeLayout>
