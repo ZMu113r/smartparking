@@ -210,9 +210,14 @@ public class RouteSelectionActivity extends Activity {
                     travelTimeDouble += 1.0;
                 }
 
+                double tTimeDouble = (double)travelTimeDouble * 100;
+
                 // Truncate to 2 decimal places and convert to string
-                arrivalTime = new DecimalFormat("#.##").format(travelTimeDouble);
-                arrivalTime = arrivalTime.substring(0, 1) + ":" + arrivalTime.substring(2);
+                int min = (int)tTimeDouble % 100;
+                int hours = (int)tTimeDouble / 100;
+
+                arrivalTime = hours + ":" + min;
+
                 if(arrivalTime.length() == 3)
                     arrivalTime += "0";
                 else if(arrivalTime.length() == 2)
