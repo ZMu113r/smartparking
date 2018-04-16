@@ -212,10 +212,13 @@ public class RouteSelectionActivity extends Activity {
 
                 // Truncate to 2 decimal places and convert to string
                 arrivalTime = new DecimalFormat("#.##").format(travelTimeDouble);
-                if(arrivalTime.length() < 4)
+                arrivalTime = arrivalTime.substring(0, 1) + ":" + arrivalTime.substring(2);
+                if(arrivalTime.length() == 3)
+                    arrivalTime += "0";
+                else if(arrivalTime.length() == 2)
                     arrivalTime += "00";
                 // Format to Time
-                arrivalTime = arrivalTime.substring(0,1) + ":" + arrivalTime.substring(1) + " " + am_or_pm;
+                arrivalTime += " " + am_or_pm;
 
             } catch (IOException e) {
                 e.printStackTrace();
