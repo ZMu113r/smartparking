@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 import com.example.zacharymuller.smartparking.R;
 import com.mapbox.geojson.Point;
@@ -85,7 +86,7 @@ public class NavigationActivity extends FragmentActivity implements NavigationLi
                 .build();
 
         // Testing - Remove after
-        this.onNavigationFinished();
+        //onNavigationFinished();
         RouteDisplayActivity.navigationCalled = true;
         navigationView.startNavigation(options);
     }
