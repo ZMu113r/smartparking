@@ -40,7 +40,7 @@ public class SpotVisualizerActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        garage = Garages.getGarage("A"); //Garages.getGarage(bundle.getString("chosengarage"));
+        garage = Garages.getGarage(bundle.getString("chosengarage"));
 
         pgView = findViewById(R.id.parkingGarageView);
         pgView.setGarage(garage);
